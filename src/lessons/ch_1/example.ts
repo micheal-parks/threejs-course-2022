@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import Debug from 'three-debug'
 
 const renderer = new THREE.WebGLRenderer()
+renderer.physicallyCorrectLights = true
+renderer.toneMapping = THREE.ACESFilmicToneMapping
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
