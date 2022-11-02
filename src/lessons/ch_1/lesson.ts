@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { resizeRendererToDisplaySize } from '../../lib/resize'
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true
@@ -17,29 +18,32 @@ material.transparent = true
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-renderer.setSize(window.innerWidth, window.innerHeight)
 camera.position.set(5, 4, 5)
 camera.lookAt(0, 0, 0)
 
-
-
-document.body.append(renderer.domElement)
-
 let then = performance.now()
+let opacityDelta = -0.01
 
-const frame = (dt: number) => {
+const frame = () => {
+  requestAnimationFrame(frame)
+
   const now = performance.now()
   const delta = now - then
+  then = now
 
   mesh.rotation.x += 0.01
 
-  mesh.material.opacity -= 0.01
+  mesh.material.opacity += opacityDelta
 
-  then = now
+  if (mesh.material.opacity < 0 || mesh.material.opacity > 1) {
+    opacityDelta = -opacityDelta
+  }
 
-  requestAnimationFrame(frame)
+  resizeRendererToDisplaySize(renderer, camera)
 
   renderer.render(scene, camera)
 }
+
+document.body.append(renderer.domElement)
 
 requestAnimationFrame(frame)

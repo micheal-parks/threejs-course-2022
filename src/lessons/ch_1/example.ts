@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Debug from 'three-debug'
+import { resizeRendererToDisplaySize } from '../../lib/resize'
 
 const renderer = new THREE.WebGLRenderer()
 renderer.physicallyCorrectLights = true
@@ -51,23 +52,9 @@ scene.add(camera)
 
 const debug = new Debug(THREE, scene, camera, renderer)
 
-export const resizeRendererToDisplaySize = () => {
-  const canvas = renderer.domElement
-  const width = (canvas.clientWidth * window.devicePixelRatio) | 0
-  const height = (canvas.clientHeight * window.devicePixelRatio) | 0
-  const needResize = canvas.width !== width || canvas.height !== height
-
-  if (needResize) {
-    const aspect = canvas.clientWidth / canvas.clientHeight
-    camera.aspect = aspect
-    camera.updateProjectionMatrix()
-    renderer.setSize(width, height, false)
-  }
-}
-
 const frame = () => {
   requestAnimationFrame(frame)
-  resizeRendererToDisplaySize()
+  resizeRendererToDisplaySize(renderer, camera)
   renderer.render(scene, camera)
 }
 
