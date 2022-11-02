@@ -1,6 +1,5 @@
 import Debug from 'three-debug'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { resizeRendererToDisplaySize } from '../../lib/resize'
 
 THREE.ColorManagement.legacyMode = false
@@ -20,9 +19,6 @@ camera.position.set(0, 10, 20)
 camera.lookAt(0, 0, 0)
 scene.add(camera)
 
-const controls = new OrbitControls(camera, renderer.domElement)
-controls.enableDamping = true
-
 const sungeo = new THREE.SphereGeometry(3)
 const sunmat = new THREE.MeshBasicMaterial({ color: 'gold' })
 const sun = new THREE.Mesh(sungeo, sunmat)
@@ -35,7 +31,6 @@ const earth = new THREE.Mesh(earthgeo, earthmat)
 earth.position.x = 7
 earth.name = 'Earth'
 sun.add(earth)
-console.log(sun)
 
 const moongeo = new THREE.SphereGeometry(0.1)
 const moonmat = new THREE.MeshBasicMaterial({ color: 'gainsboro' })
@@ -53,7 +48,6 @@ const frame = () => {
   resizeRendererToDisplaySize(renderer, camera)
 
   renderer.render(scene, camera)
-  controls.update()
 }
 
 document.body.append(renderer.domElement)
