@@ -1,17 +1,13 @@
 import * as THREE from 'three'
-import { resizeRendererToDisplaySize } from '../../lib/resize'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { run, scene, camera, renderer, update } from 'three-kit'
 import Inspector from 'three-inspect'
-
-const renderer = new THREE.WebGLRenderer({
-  antialias: true,
-})
-renderer.shadowMap.enabled = true
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 THREE.ColorManagement.legacyMode = false
 
+camera.position.set(0, 2, 10)
+
 const cubeTextureLoader = new THREE.CubeTextureLoader()
+const textureLoader = new THREE.TextureLoader()
 
 const environmentMapTexture = cubeTextureLoader.load([
     '/textures/environmentMaps/0/px.jpg',
@@ -22,18 +18,10 @@ const environmentMapTexture = cubeTextureLoader.load([
     '/textures/environmentMaps/0/nz.jpg'
 ])
 
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera()
-camera.near = 0.001
-camera.far = 100
-camera.position.set(0, 10, 20)
-camera.lookAt(0, 0, 0)
-scene.add(camera)
+const backgroundTexture = textureLoader.load('/textures/environmentMaps/0/nx.jpg')
+scene.background = backgroundTexture
 
-const controls = new OrbitControls(camera, renderer.domElement)
-controls.enableDamping = true
-
-let meshes: THREE.Mesh[] = []
+let meshes: THREE.Object3D[] = []
 let materials: THREE.Material[] = []
 
 // Add an ambient light
@@ -130,7 +118,7 @@ const size = 1
 
 // Add a torus / donut
 {
-  const geometry = new THREE.TorusGeometry( size / 2, size / 10, 30, 100 );
+  const geometry = new THREE.TorusGeometry(size / 2, size / 10, 30, 100)
   const material = new THREE.MeshPhysicalMaterial({  })
   material.envMap = environmentMapTexture
   material.envMapIntensity = 1
@@ -145,26 +133,69 @@ const size = 1
   meshes.push(mesh)
 }
 
+// Add a Cylinder
+{
+  const geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 40)
+  const edges = new THREE.EdgesGeometry( geometry, 1 );
+  const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
+  line.name = 'Cylinder'
+  line.position.x = 6
+
+  scene.add(line)
+  meshes.push(line)
+}
+
+// Add a Plane
+{
+  const material = new THREE.MeshPhysicalMaterial()
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    material
+  )
+
+  material.side = THREE.DoubleSide
+
+
+  mesh.name = 'Plane'
+  mesh.position.x = -6
+  scene.add(mesh)
+}
+
+// Add a torus / donut
+{
+  const points = [];
+  for ( let i = 0; i < 10; i ++ ) {
+    points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) );
+  }
+  const geometry = new THREE.LatheGeometry(points, 30)
+  const material = new THREE.MeshPhysicalMaterial()
+  material.envMap = environmentMapTexture
+  material.envMapIntensity = 1
+  material.opacity = 0.5
+  material.transparent = true
+  material.transmission = 0.5
+  material.side = THREE.DoubleSide
+  materials.push(material)
+
+  const mesh = new THREE.Mesh(geometry, material)
+  mesh.name = 'Torus / Donut'
+  mesh.position.x = 8
+  mesh.scale.setScalar(0.05)
+  scene.add(mesh)
+  meshes.push(mesh)
+}
+
 for (const mesh of meshes) {
   mesh.castShadow = true
   mesh.receiveShadow = true
 }
 
-const frame = () => {
-  requestAnimationFrame(frame)
-
+update(() => {
   for (const mesh of meshes) {
     mesh.rotation.y += 0.01
   }
-
-  resizeRendererToDisplaySize(renderer, camera)
-
-  renderer.render(scene, camera)
-  controls.update()
-}
-
-document.body.append(renderer.domElement)
-
-requestAnimationFrame(frame)
+})
 
 new Inspector(THREE, scene, camera, renderer)
+
+run()

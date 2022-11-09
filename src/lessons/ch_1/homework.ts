@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Debug from 'three-debug'
+import Inspector from 'three-inspect'
 
 const renderer = new THREE.WebGLRenderer()
 renderer.physicallyCorrectLights = true
@@ -30,7 +30,7 @@ scene.add(camera)
   scene.add(mesh) 
 }
 
-const debug = new Debug(THREE, scene, camera, renderer)
+new Inspector(THREE, scene, camera, renderer)
 
 export const resizeRendererToDisplaySize = () => {
   const canvas = renderer.domElement

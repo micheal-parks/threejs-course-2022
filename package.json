@@ -11,7 +11,7 @@
   "dependencies": {
     "@types/three": "^0.144.0",
     "three": "^0.145.0",
-    "three-debug": "^0.0.26",
+    "three-inspect": "^0.1.0",
     "three-kit": "github:michealparks/three-kit",
     "typescript": "^4.8.4",
     "vite": "^3.2.0"

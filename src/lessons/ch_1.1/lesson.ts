@@ -1,4 +1,4 @@
-import Debug from 'three-debug'
+import Inspector from 'three-inspect'
 import * as THREE from 'three'
 import { resizeRendererToDisplaySize } from '../../lib/resize'
 
@@ -54,4 +54,4 @@ document.body.append(renderer.domElement)
 
 requestAnimationFrame(frame)
 
-new Debug(THREE, scene, camera, renderer)
+new Inspector(THREE, scene, camera, renderer)

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
 import { composer, renderer, scene, camera } from 'three-kit'
-import Debug from 'three-debug'
+import Inspector from 'three-inspect'
 
-new Debug(THREE, scene, camera, renderer, composer)
+new Inspector(THREE, scene, camera, renderer, composer)
