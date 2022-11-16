@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Debug from 'three-debug'
+import Inspector from 'three-inspect'
 import { resizeRendererToDisplaySize } from '../../lib/resize'
 
 const renderer = new THREE.WebGLRenderer()
@@ -50,7 +50,7 @@ scene.add(camera)
   scene.add(mesh)
 }
 
-const debug = new Debug(THREE, scene, camera, renderer)
+const inspect = new Inspector(THREE, scene, camera, renderer)
 
 const frame = () => {
   requestAnimationFrame(frame)

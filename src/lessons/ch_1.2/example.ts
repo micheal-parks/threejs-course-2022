@@ -104,10 +104,32 @@ const size = 1
 // Add a torus knot
 {
   const geometry = new THREE.TorusKnotGeometry(size / 2, size / 10, 200, 200)
-  const material = new THREE.MeshStandardMaterial({ color: 'darksalmon' })
+  const material = new THREE.MeshStandardMaterial(/* { color: 'darksalmon' } */)
   material.envMap = environmentMapTexture
   material.envMapIntensity = 1
   materials.push(material)
+
+  const colorTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_COL_2K_METALNESS.png')
+  colorTexture.wrapS = colorTexture.wrapT = THREE.RepeatWrapping
+  colorTexture.repeat = new THREE.Vector2(9, 1)
+
+  const aoTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_AO_2K_METALNESS.png')
+  aoTexture.wrapS = aoTexture.wrapT = THREE.RepeatWrapping
+  aoTexture.repeat = new THREE.Vector2(9, 1)
+
+  // const bumpTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_BUMP_2K_METALNESS.png')
+  // bumpTexture.wrapS = bumpTexture.wrapT = THREE.RepeatWrapping
+  // bumpTexture.repeat = new THREE.Vector2(9, 1)
+
+  const dispTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_DISP_2K_METALNESS.png')
+  dispTexture.wrapS = dispTexture.wrapT = THREE.RepeatWrapping
+  dispTexture.repeat = new THREE.Vector2(9, 1)
+
+  material.map = colorTexture;
+  material.aoMap = aoTexture;
+  // material.bumpMap = bumpTexture;
+  material.displacementMap = dispTexture;
+  material.displacementScale = 0.005
 
   const mesh = new THREE.Mesh(geometry, material)
   mesh.name = 'Torus Knot'
