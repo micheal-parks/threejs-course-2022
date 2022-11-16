@@ -108,28 +108,48 @@ const size = 1
   material.envMap = environmentMapTexture
   material.envMapIntensity = 1
   materials.push(material)
+  
+  const repeatX = 10
 
   const colorTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_COL_2K_METALNESS.png')
   colorTexture.wrapS = colorTexture.wrapT = THREE.RepeatWrapping
-  colorTexture.repeat = new THREE.Vector2(9, 1)
+  colorTexture.repeat.x = repeatX
 
   const aoTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_AO_2K_METALNESS.png')
   aoTexture.wrapS = aoTexture.wrapT = THREE.RepeatWrapping
-  aoTexture.repeat = new THREE.Vector2(9, 1)
+  aoTexture.repeat.x = repeatX
 
   // const bumpTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_BUMP_2K_METALNESS.png')
   // bumpTexture.wrapS = bumpTexture.wrapT = THREE.RepeatWrapping
-  // bumpTexture.repeat = new THREE.Vector2(9, 1)
+  // bumpTexture.repeat.x = repeatX
 
   const dispTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_DISP_2K_METALNESS.png')
   dispTexture.wrapS = dispTexture.wrapT = THREE.RepeatWrapping
-  dispTexture.repeat = new THREE.Vector2(9, 1)
+  dispTexture.repeat.x = repeatX
 
-  material.map = colorTexture;
-  material.aoMap = aoTexture;
-  // material.bumpMap = bumpTexture;
-  material.displacementMap = dispTexture;
+  const normalTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_NRM_2K_METALNESS.png')
+  normalTexture.wrapS = normalTexture.wrapT = THREE.RepeatWrapping
+  normalTexture.repeat.x = repeatX
+
+  const roughTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_ROUGHNESS_2K_METALNESS.png')
+  roughTexture.wrapS = roughTexture.wrapT = THREE.RepeatWrapping
+  roughTexture.repeat.x = repeatX
+
+  const metalTexture = await textureLoader.loadAsync('/textures/metal_plate/MetalPlateStudded001_ROUGHNESS_2K_METALNESS.png')
+  metalTexture.wrapS = metalTexture.wrapT = THREE.RepeatWrapping
+  metalTexture.repeat.x = repeatX
+
+  material.map = colorTexture
+  material.aoMap = aoTexture
+  // material.bumpMap = bumpTexture
+  material.displacementMap = dispTexture
   material.displacementScale = 0.005
+  material.normalMap = normalTexture
+  material.roughnessMap = roughTexture
+  material.metalnessMap = metalTexture
+
+  material.roughness = 0.17
+  material.metalness = 0.95
 
   const mesh = new THREE.Mesh(geometry, material)
   mesh.name = 'Torus Knot'
@@ -141,11 +161,11 @@ const size = 1
 // Add a torus / donut
 {
   const geometry = new THREE.TorusGeometry(size / 2, size / 10, 30, 100)
-  const material = new THREE.MeshPhysicalMaterial({  })
+  const material = new THREE.MeshPhysicalMaterial()
   material.envMap = environmentMapTexture
   material.envMapIntensity = 1
   material.roughness = 0.17
-  material.metalness = 1
+  material.metalness = 0.95
   materials.push(material)
 
   const mesh = new THREE.Mesh(geometry, material)
@@ -189,6 +209,7 @@ const size = 1
   for ( let i = 0; i < 10; i ++ ) {
     points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) );
   }
+
   const geometry = new THREE.LatheGeometry(points, 30)
   const material = new THREE.MeshPhysicalMaterial()
   material.envMap = environmentMapTexture

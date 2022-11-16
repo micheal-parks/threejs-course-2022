@@ -34,8 +34,6 @@ let materials: THREE.Material[] = []
   const count = 10_000
   const radius = 200
 
-  // create a simple square shape. We duplicate the top left and bottom right
-  // vertices because each vertex needs to appear once per triangle.
   const vertices = new Float32Array(count * 3);
 
   for (let i = 0; i < count * 3; i += 3) {
