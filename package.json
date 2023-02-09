@@ -9,6 +9,7 @@
     "preview": "vite preview --host --open"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.11.1",
     "@types/three": "^0.146.0",
     "postprocessing": "^6.29.3",
     "three": "^0.147.0",
