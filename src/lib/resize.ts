@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export const resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera | THREE.OrthographicCamera) => {
+export const resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera | THREE.OrthographicCamera, composer) => {
   const canvas = renderer.domElement
   const width = (canvas.clientWidth * window.devicePixelRatio) | 0
   const height = (canvas.clientHeight * window.devicePixelRatio) | 0
@@ -12,6 +12,7 @@ export const resizeRendererToDisplaySize = (renderer: THREE.WebGLRenderer, camer
       camera.aspect = aspect
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
+      composer.setSize(width, height, false)
     }
   }
 }

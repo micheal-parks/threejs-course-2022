@@ -24,7 +24,7 @@ export default {
   kit__PCSS_RINGS: 3,
 
   // https://github.com/pmndrs/postprocessing
-  kit__POSTPROCESSING: false,
+  kit__POSTPROCESSING: true,
   kit__POST_MULTISAMPLING: 2,
   kit__POST_SMAA: true,
   kit__POST_DEPTH_PASS: false,
@@ -35,8 +35,8 @@ export default {
   kit__POST_BLOOM_LUMINANCE_THRESHOLD: 0.4,
   kit__POST_BLOOM_LUMINANCE_SMOOTHING: 0.9,
 
-  kit__POST_NOISE: true,
-  kit__POST_NOISE_OPACITY: 0.06,
+  kit__POST_NOISE: false,
+  kit__POST_NOISE_OPACITY: 0.5,
 
   // https://github.com/Ameobea/three-good-godrays
   kit__POST_GODRAYS: true,
